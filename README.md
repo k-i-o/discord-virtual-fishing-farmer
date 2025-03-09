@@ -5,4 +5,6 @@ after these passages run your bot with `node .` or `npm start`.
 
 You can also run the bot on a vps or home server with docker just doing `docker compose up --build -d`. (note: also with docker you must create your .env)
 
+To start the farming go in the designed guild in the specified channel and execute the command /fish
+
 ## IMPORTANT NOTE: DON'T SHARE YOUR .ENV WITH NOBODY THEY CAN STEAL YOUR DISCORD ACCOUNT WITH IT
