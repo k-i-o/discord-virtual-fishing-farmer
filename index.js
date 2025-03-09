@@ -46,7 +46,7 @@ client.on('messageCreate', async (message) => {
                         accept: '*/*',
                         authorization: DISCORD_AUTH_TOKEN,
                         'content-type': 'multipart/form-data; boundary=----WebKitFormBoundaryo1G6Eu3McoXK3Ref',
-                        Referer: 'https://discord.com/channels/1274814357582118964/1274814358576173141',
+                        Referer: `https://discord.com/channels/${GUILD_ID}/${CHANNEL_ID}`,
                         'Referrer-Policy': 'strict-origin-when-cross-origin'
                     },
                     method: 'POST',
