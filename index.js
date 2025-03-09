@@ -21,18 +21,20 @@ client.once('ready', () => {
     console.log('Bot is online!');
 });
 
+let counter = 0;
+let timesBeforeWait = 80;
+
 client.on('messageCreate', async (message) => {
     if (message.author.id != VIRTUALFISHER_USER_ID || message.channel.id != CHANNEL_ID) return;
-    if (message.components.length == 0 || message.components[0].components.length == 0) return;
-
-    const customId = message.components[0].components[0].customId;
-    const messageId = message.id;
 
     const nonce = Math.floor(Math.random() * 9999999999).toString();
+  
+    log('-----------------------');
+    log(JSON.stringify(message.embeds[0], 4, 4));
 
     let verifyCode = null;
-    if(message.embeds[0].data.description.includes('Code: **')) {
-        verifyCode = message.embeds[0].data.description.split('**\n')[0].split('**')[1];
+    if(message.embeds[0].description && message.embeds[0].description.includes('Code: **')) {
+        verifyCode = message.embeds[0].description.split('**\n')[0].split('**')[1];
 
         log('Verification code: ' + verifyCode);
     }
@@ -60,6 +62,12 @@ client.on('messageCreate', async (message) => {
                 }
 
             } else {    
+
+                if (message.components.length == 0 || message.components[0].components.length == 0) return;
+                            
+                const customId = message.components[0].components[0].customId;
+                const messageId = message.id;
+
                 const res = await fetch('https://discord.com/api/v9/interactions', {
                     method: 'POST',
                     headers: {
@@ -93,7 +101,12 @@ client.on('messageCreate', async (message) => {
         } catch (error) {
             console.error('Error sending request:', error);
         }
-    }, TIMEOUT);
+
+        counter++;
+        if(counter % timesBeforeWait == 0 && counter != 0) {
+            log('Waiting 5 minutes...');
+        }
+    }, counter % timesBeforeWait == 0 && counter != 0 ? 200000 : TIMEOUT);
 });
 
 client.login(BOT_TOKEN);
