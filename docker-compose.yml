@@ -1,0 +1,10 @@
+services:
+  discord-bot:
+    build: .
+    container_name: discord-bot
+    restart: always
+    volumes:
+      - discord-bot:/app
+
+volumes:
+  discord-bot:
