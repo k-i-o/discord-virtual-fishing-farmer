@@ -28,7 +28,7 @@ client.once('ready', () => {
 });
 
 let counter = 0;
-let timesBeforeWait = 150;
+let timesBeforeWait = 100;
 let minutesToWait = 3;
 
 client.on(Events.MessageUpdate, async (_, newMessage) => {
@@ -72,10 +72,14 @@ client.on(Events.MessageUpdate, async (_, newMessage) => {
                 execFish(lastMessage);
             } else {
                 log('Request sent wrongly.');
+
+                execFish(lastMessage);
             }
 
         } catch (error) {
             console.error('Error sending request:', error);
+
+            execFish(lastMessage);
         }
     }, 1000);
 
@@ -84,9 +88,10 @@ client.on(Events.MessageUpdate, async (_, newMessage) => {
 client.on(Events.MessageCreate, async (message) => {
     if (message.author.id == MY_BOT_USER_ID) return;
     if (message.author.id != VIRTUALFISHER_USER_ID || message.channel.id != CHANNEL_ID) return;
+
     if (message.components.length == 0 || message.components[0].components.length == 0) return;
 
-    if(counter % timesBeforeWait == 0 && counter != 0) {
+    if(counter % timesBeforeWait == 0 && counter != 0 || counter == 1) {
         lastMessage = message;
     }
 
@@ -94,6 +99,11 @@ client.on(Events.MessageCreate, async (message) => {
 });
 
 const execFish = (message) => {
+    if (message.components.length == 0 || message.components[0].components.length == 0) {
+        log('No components found.');
+        
+        message = lastMessage;
+    }
 
     const customId = message.components[0].components[0].customId;
     const messageId = message.id;
