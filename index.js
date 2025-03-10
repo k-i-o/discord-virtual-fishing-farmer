@@ -65,6 +65,8 @@ client.on(Events.MessageUpdate, async (_, newMessage) => {
             if (!res.body) {
                 log('Request sent successfully.');
 
+                // console.log(JSON.stringify(lastMessage, null, 2));
+
                 execFish(lastMessage);
             } else {
                 log('Request sent wrongly.');
@@ -73,7 +75,7 @@ client.on(Events.MessageUpdate, async (_, newMessage) => {
         } catch (error) {
             console.error('Error sending request:', error);
         }
-    }, 100);
+    }, 1000);
 
 });
 
@@ -81,10 +83,11 @@ client.on(Events.MessageCreate, async (message) => {
     if (message.author.id != VIRTUALFISHER_USER_ID || message.channel.id != CHANNEL_ID) return;
     if (message.components.length == 0 || message.components[0].components.length == 0) return;
 
-    lastMessage = message;
+    if(counter % timesBeforeWait == 0 && counter != 0) {
+        lastMessage = message;
+    }
 
     execFish(message);
-
 });
 
 const execFish = (message) => {
