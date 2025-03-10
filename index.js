@@ -28,7 +28,7 @@ client.once('ready', () => {
 
 let counter = 0;
 let timesBeforeWait = 150;
-let minutesToWait = 1;
+let minutesToWait = 3;
 
 client.on(Events.MessageUpdate, async (_, newMessage) => {
     const message = newMessage;
@@ -133,6 +133,7 @@ const execFish = (message) => {
             }
         } catch (error) {
             console.error('Error sending request:', error);
+            execFish(lastMessage);
         }
 
         counter++;
