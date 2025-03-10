@@ -5,6 +5,7 @@ const BOT_TOKEN = process.env.BOT_TOKEN;
 const GUILD_ID = process.env.GUILD_ID;
 const VIRTUALFISHER_USER_ID = process.env.VIRTUALFISHER_USER_ID;
 const MY_USER_ID = process.env.MY_USER_ID;
+const MY_BOT_USER_ID = process.env.MY_BOT_USER_ID;
 const CHANNEL_ID = process.env.CHANNEL_ID;
 const SESSION_ID = process.env.SESSION_ID;
 const DISCORD_AUTH_TOKEN = process.env.DISCORD_AUTH_TOKEN;
@@ -33,6 +34,7 @@ let minutesToWait = 3;
 client.on(Events.MessageUpdate, async (_, newMessage) => {
     const message = newMessage;
 
+    if (message.author.id == MY_BOT_USER_ID) return;
     if (message.author.id != VIRTUALFISHER_USER_ID || message.channel.id != CHANNEL_ID) return;
 
     log('Possible verification asked!');
@@ -80,6 +82,7 @@ client.on(Events.MessageUpdate, async (_, newMessage) => {
 });
 
 client.on(Events.MessageCreate, async (message) => {
+    if (message.author.id == MY_BOT_USER_ID) return;
     if (message.author.id != VIRTUALFISHER_USER_ID || message.channel.id != CHANNEL_ID) return;
     if (message.components.length == 0 || message.components[0].components.length == 0) return;
 
