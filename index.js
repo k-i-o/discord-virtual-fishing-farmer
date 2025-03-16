@@ -11,6 +11,8 @@ const SESSION_ID = process.env.SESSION_ID;
 const DISCORD_AUTH_TOKEN = process.env.DISCORD_AUTH_TOKEN;
 const TIMEOUT = process.env.TIMEOUT;
 
+console.log(TIMEOUT, "timeout");
+
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.DirectMessages, GatewayIntentBits.DirectMessageReactions, GatewayIntentBits.DirectMessageTyping, GatewayIntentBits.GuildMessageTyping]
 });
